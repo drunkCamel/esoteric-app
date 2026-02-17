@@ -14,3 +14,6 @@ class InvalidCalculationParametersError(NumerologyError):
     """Raised when calculation parameters are invalid"""
     pass
 
+class InvalidTypeError(NumerologyError):
+    """Raised when input data types are invalid"""
+    pass

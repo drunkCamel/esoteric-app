@@ -1,3 +1,4 @@
+from app.exceptions import InvalidTypeError
 class NameData:
     """Initiating the name variable"""
     SINGLE_DIGIT_MAP = {
@@ -20,18 +21,33 @@ class NameData:
 
 
     def __init__(self, first_name: str, surname: str, second_name: str| None = None):
-        # String (first_name, surname) validation
-        if not all(isinstance(s, str) and s.strip() for s in [first_name, surname]):
-            raise TypeError("first_name, surname must be a non-empty and string")
         
-        # Validation second_name only if provided
-        if second_name is not None:
-            if not isinstance(second_name, str) or not second_name.strip():
-                raise TypeError("second_name must be a non-empty or none")
-            
+        # Validate first_name and surname (must be non-empty strings)
+        if not isinstance(first_name, str) or not first_name.strip():
+            raise InvalidTypeError("first_name must be a non-empty string")
+        
+        # Validate surname (must be non-empty string)
+        if not isinstance(surname, str) or not surname.strip():
+            raise InvalidTypeError("surname must be a non-empty string")
+        
+        # Validate second_name type (only if not None)
+        if second_name is not None and not isinstance(second_name, str):
+            raise InvalidTypeError("second_name must be a string or None")
+        
+        # Validate first_name and surname (must be non-empty strings) --- IGNORE ---
+        if not all(isinstance(s, str) and s.strip() for s in [first_name, surname]):
+            raise InvalidTypeError("first_name, surname must be a non-empty and string")
+        
+
         self.first_name = first_name
         self.surname = surname
-        self.second_name = second_name
+
+        # Convert empty or whitespace-only strings to None for second_name
+        if second_name and second_name.strip():
+            self.second_name = second_name.strip()
+        else:
+            self.second_name = None
+        
 
     @property
     def fullname(self) -> list[str]:
@@ -61,7 +77,7 @@ class NameData:
 
         select_map = map_selector[type]
 
-        names = [name.lower() for name in [self.first_name, self.second_name, self.surname] 
+        names = [name.lower() for name in [self.first_name, self.surname, self.second_name] 
              if name is not None]
         
         return [[select_map[char] for char in element if char in select_map] 
