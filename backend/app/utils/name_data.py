@@ -1,0 +1,69 @@
+class NameData:
+    """Initiating the name variable"""
+    SINGLE_DIGIT_MAP = {
+        'a': 1, 'j': 1, 's': 1,
+        'b': 2, 'k': 2, 't': 2,
+        'c': 3, 'l': 3, 'u': 3,
+        'd': 4, 'm': 4, 'v': 4,
+        'e': 5, 'n': 5, 'w': 5,
+        'f': 6, 'o': 6, 'x': 6,
+        'g': 7, 'p': 7, 'y': 7,
+        'h': 8, 'q': 8, 'z': 8,
+        'i': 9, 'r': 9
+    }
+
+    VOWEL_MAP = {'a': 1, 'e': 5, 'i': 9, 'o': 6, 'u': 3}
+    CONSONANT_MAP = {'j': 1, 's': 1, 'b': 2, 'k': 2, 't': 2, 'c': 3, 'l': 3, 
+        'd': 4, 'm': 4, 'v': 4, 'n': 5, 'w': 5, 'f': 6, 'x': 6,
+        'g': 7, 'p': 7, 'y': 7, 'h': 8, 'q': 8, 'z': 8, 'r': 9}
+    DOUBLE_DIGIT_MAP = {chr(i + 96): i for i in range(1, 27)} 
+
+
+    def __init__(self, first_name: str, surname: str, second_name: str| None = None):
+        # String (first_name, surname) validation
+        if not all(isinstance(s, str) and s.strip() for s in [first_name, surname]):
+            raise TypeError("first_name, surname must be a non-empty and string")
+        
+        # Validation second_name only if provided
+        if second_name is not None:
+            if not isinstance(second_name, str) or not second_name.strip():
+                raise TypeError("second_name must be a non-empty or none")
+            
+        self.first_name = first_name
+        self.surname = surname
+        self.second_name = second_name
+
+    @property
+    def fullname(self) -> list[str]:
+        names =  [name for name in (self.first_name, self.second_name, self.surname) if name is not None]
+        return ''.join(names).lower()
+    
+
+    def birthdate_list(self,val_one:int = None, val_two:int = None, val_three:int = None) -> list[list[int]]:
+        result = []
+        if val_one is not None:
+            result.append([val_one])
+        if val_two is not None:
+            result.append([val_two])
+        if val_three is not None:
+            result.append([val_three])
+    
+        return result
+
+
+    def extract_digits_from_list(self,type:str) -> list[list[int]]:
+        map_selector = {
+            'VOWEL_MAP': self.VOWEL_MAP,
+            'CONSONANT_MAP': self.CONSONANT_MAP,
+            'SINGLE_DIGIT_MAP': self.SINGLE_DIGIT_MAP,
+            'DOUBLE_DIGIT_MAP': self.DOUBLE_DIGIT_MAP
+        }
+
+        select_map = map_selector[type]
+
+        names = [name.lower() for name in [self.first_name, self.second_name, self.surname] 
+             if name is not None]
+        
+        return [[select_map[char] for char in element if char in select_map] 
+                for element in names]
+
