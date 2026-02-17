@@ -1,5 +1,5 @@
 {
-  "name": "Full Stack Dev Environment",
+  "name": "Full Stack EsotericAPP Environment",
   "dockerComposeFile": "../docker-compose.yml",
   "service": "backend",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
@@ -14,7 +14,10 @@
       "settings": {
         "python.defaultInterpreterPath": "/usr/local/bin/python",
         "python.linting.enabled": true,
-        "editor.formatOnSave": true
+        "editor.formatOnSave": true,
+        "python.testing.pytestEnabled": true,
+        "python.testing.pytestArgs": ["backend/tests"]
+
       }
     }
   },
