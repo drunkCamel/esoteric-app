@@ -43,3 +43,7 @@ class TestBirthdateData:
             BirthdateData(15, "5", 1990)
         with pytest.raises(InvalidTypeError):
             BirthdateData(15, 5, "1990")
+
+    def test_zero_year(self):
+        with pytest.raises(InvalidDataError):
+            BirthdateData(15, 5, 0)

@@ -11,7 +11,7 @@ class BirthdateData:
             raise InvalidTypeError("day, month, and year must be integers values")
         
         # range validation for year
-        if year < 0:
+        if year < 1 or year > 9999:
             raise InvalidDataError(f"Year must be a positive integer, got {year}")
 
         
