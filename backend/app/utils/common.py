@@ -1,3 +1,4 @@
+from itertools import product
 import itertools
 
 def number_to_digits(number_int: int ) -> list[int]:
@@ -39,16 +40,27 @@ def calculate_all_reduction_values(lista):
     )
 
 def all_possibilites_digts_recursion_version(namelist: list) -> list[int]:
-    total = [sum(sublist) for sublist in namelist]
-    current_sum = sum(total)
-
-    if all(x < 10 for x in total) and len(total) > 1:
-        if current_sum >= 10:
-            return [current_sum, recursive_digit(current_sum)]
-        return [current_sum]
+   # Get the sum of each sublist
+    totals = [sum(sublist) for sublist in namelist]
     
-    new_nested = [[calculate_digit_sum(s)] for s in total]
-    return [current_sum] + all_possibilites_digts_recursion_version(new_nested)
+    # For each total, create options [original, reduced]
+    value_options = []
+    for val in totals:
+        reduced = recursive_digit(val)
+        if val == reduced:
+            # Single digit, only one option
+            value_options.append([val])
+        else:
+            # Multi-digit, two options: original and reduced
+            value_options.append([val, reduced])
+    
+    # Generate all combinations using product
+    all_sums = set()
+    for combo in product(*value_options):
+        all_sums.add(sum(combo))
+    
+    # Return sorted descending
+    return sorted(all_sums, reverse=True)
 
 
 def generate_repeated_digit_sequence(name_list: list, compare_list: list, length: int = 120) -> list[int]:
@@ -97,3 +109,7 @@ def comparing_two_values(val_one: int, val_two:int, val_3:int) -> list[int]:
             total.append(val_two)
     total.sort(reverse=True)
     return total
+
+
+test = calculate_all_reduction_values([[13],[1],[25]])
+print(test)

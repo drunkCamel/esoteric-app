@@ -299,3 +299,9 @@ class NumerologyCalculator:
     
         #   'Rat', 'Ox', 'Tiger', 'Rabbit', 'Dragon', 'Snake',
         # 'Horse', 'Goat', 'Monkey', 'Rooster', 'Dog', 'Pig'
+
+
+birthday = BirthdateData(13, 1, 1996)
+person = NameData("Thomas", "Hanks", "Jeffrey")
+calculator = NumerologyCalculator(birthday, person, current_year=2024, current_month=6)
+print(calculator.calculate_lifepath())
