@@ -111,5 +111,3 @@ def comparing_two_values(val_one: int, val_two:int, val_3:int) -> list[int]:
     return total
 
 
-test = calculate_all_reduction_values([[13],[1],[25]])
-print(test)

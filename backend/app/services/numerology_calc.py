@@ -3,10 +3,11 @@ from app.utils.name_data import NameData
 from app.exceptions import InvalidDataError, InvalidReducitonLevelError, InvalidCalculationParametersError
 from app.utils import common
 from collections import Counter
-from lunardate import LunarDate
+from datetime import datetime
 
 class NumerologyCalculator:
-    def __init__(self, birthday: BirthdateData, person: NameData, current_year: int, current_month: int):
+    def __init__(self, birthday: BirthdateData, person: NameData, 
+                 current_year: datetime = datetime.now().year, current_month: datetime = datetime.now().month):
         """Initialise Numerology Calculator."""
 
         if not isinstance(current_month, int) or not isinstance(current_year, int):
@@ -19,16 +20,9 @@ class NumerologyCalculator:
         self.person = person
         self.current_year = current_year
         self.current_month = current_month
+    
 
-    zodiac_animals = [
-        'Rat', 'Ox', 'Tiger', 'Rabbit', 'Dragon', 'Snake',
-        'Horse', 'Goat', 'Monkey', 'Rooster', 'Dog', 'Pig'
-    ]
 
-    @property
-    def chinese_birth_day(self) -> BirthdateData:
-        lunar_birthday = LunarDate.fromSolarDate(self.birthday.year,self.birthday.month,self.birthday.day)
-        return BirthdateData(lunar_birthday.day,lunar_birthday.month,lunar_birthday.year)
 
     #Life Path ------------------------------------
     def calculate_lifepath(self) -> list[int]:
@@ -123,55 +117,6 @@ class NumerologyCalculator:
 
         return common.comparing_two_values(ch_fourth, ch_fourth_reduced, int(str(self.birthday.month)[1]) if len(str(self.birthday.month)) > 1 else 0)
 
-    ##Vedic Square
-    def vedic_square_number_sequance_years(self) -> list[int]:
-        """
-            Calculate list which would define 81 years ahead, including year of the birth. 
-        """
-        index_mapping = [
-            36, 77, 28, 69, 20, 61, 12, 53, 4,
-            5, 37, 78, 29, 70, 21, 62, 13, 45,
-            46, 6, 38, 79, 30, 71, 22, 54, 14,
-            15, 47, 7, 39, 80, 31, 63, 23, 55,
-            56, 16, 48, 8, 40, 72, 32, 64, 24,
-            25, 57, 17, 49, 0, 41, 73, 33, 65,
-            66, 26, 58, 9, 50, 1, 42, 74, 34,
-            35, 67, 18, 59, 10, 51, 2, 43, 75,
-            76, 27, 68, 19, 60, 11, 52, 3, 44]
-        
-        return [self.birthday.year + val for val in index_mapping]
-            # List comprehension executes like this:
-            # Iteration 1: val = 36 → 1956 + 36 = 1992
-            # Iteration 2: val = 77 → 1956 + 77 = 2033
-            # Iteration 3: val = 28 → 1956 + 28 = 1984
-            # Iteration 4: val = 69 → 1956 + 69 = 2025
-            # Iteration 5: val = 20 → 1956 + 20 = 1976
-    
-    
-    def vedic_square_number_sequance_pesonal_years(self) -> list[int]:
-        """
-            Returns list of all 81 personal years, and for each index(personal_year) creates a new list 
-            that includes all possibilites reduction to while personal_year > 9 
-        """
-        personal_years = []
-        for year in self.vedic_square_number_sequance_years():
-            total = self.birthday.day + self.birthday.month + common.calculate_digit_sum(year)
-            personal_years.append(common.reduce_number_to_root(total))
-        
-        return personal_years
-    
-    
-    def vedic_square_number_sequance_univeral_years(self) -> list[int]:
-        """
-            Returns list of all 81 univeral years, and for each index(univeral_years) creates a new list 
-            that includes all possibilites reduction to while personal_year > 9 
-        """
-        univeral_years = []
-        for year in self.vedic_square_number_sequance_years():
-            total = common.calculate_digit_sum(year)
-            univeral_years.append(common.reduce_number_to_root(total))
-        return univeral_years
-
     #? destiny month number?? 
     # reduction number of (first_name + surname) + life path + current year + current month
     def destiny_month_number(self):
@@ -258,50 +203,9 @@ class NumerologyCalculator:
         return dict(counter)
     
 
-    def calculating_lo_shu_square(self) -> dict[str, int]:
-        lunar_birthday = [self.chinese_birth_day.day, self.chinese_birth_day.month, self.chinese_birth_day.year]
-
-        digits = [digit for num in lunar_birthday for digit in common.number_to_digits(num)]
-        counter = Counter(digits)
-        # result_dict = {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0}
-
-        # for element in digits:
-        #     if str(element) in result_dict.keys():
-        #         result_dict[str(element)] += 1
-        
-        # return result_dict
-        return dict(counter)
-    
-    def calculating_chinese_zodiac_sign(self) -> str:
-        """Get Chinese zodiac animal for birth year"""
-
-        lunar_year = self.chinese_birth_day.year
-        index = (lunar_year - 4) % 12
-        return self.zodiac_animals[index]
-    
-    def calculate_chinese_enemy_sign(self) -> str:
-        lunar_year = self.chinese_birth_day.year
-        index = (lunar_year + 2) % 12
-
-        return self.zodiac_animals[index]
-    
-    def calculate_chinese_friendly_sign_one(self) -> str:
-        lunar_year = self.chinese_birth_day.year
-        index = (lunar_year + 4) % 12
-
-        return self.zodiac_animals[index]
-    
-    def calculate_chinese_friendly_sign_two(self) -> str:
-        lunar_year = self.chinese_birth_day.year
-        index = (lunar_year + 12) % 12
-
-        return self.zodiac_animals[index]
-    
-        #   'Rat', 'Ox', 'Tiger', 'Rabbit', 'Dragon', 'Snake',
-        # 'Horse', 'Goat', 'Monkey', 'Rooster', 'Dog', 'Pig'
 
 
-birthday = BirthdateData(13, 1, 1996)
+birthday = BirthdateData(9 , 4, 1998)
 person = NameData("Thomas", "Hanks", "Jeffrey")
-calculator = NumerologyCalculator(birthday, person, current_year=2024, current_month=6)
-print(calculator.calculate_lifepath())
+calculator = NumerologyCalculator(birthday, person)
+

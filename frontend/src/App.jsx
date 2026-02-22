@@ -29,7 +29,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Full Stack App - React + FastAPI</h1>
+      <h1>Full Stack App - React + FastAPI </h1>
       <h2>{message}</h2>
       
       <div>
