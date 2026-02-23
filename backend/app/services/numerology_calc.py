@@ -1,6 +1,6 @@
 from app.utils.birthdate_data import BirthdateData
 from app.utils.name_data import NameData
-from app.exceptions import InvalidDataError, InvalidReducitonLevelError, InvalidCalculationParametersError
+from app.utils.exceptions  import InvalidDataError, InvalidReducitonLevelError, InvalidCalculationParametersError
 from app.utils import common
 from collections import Counter
 from datetime import datetime
@@ -205,7 +205,7 @@ class NumerologyCalculator:
 
 
 
-birthday = BirthdateData(9 , 4, 1998)
+birthday = BirthdateData(9 , 7, 1956)
 person = NameData("Thomas", "Hanks", "Jeffrey")
 calculator = NumerologyCalculator(birthday, person)
 

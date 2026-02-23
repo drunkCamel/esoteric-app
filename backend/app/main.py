@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(title="My Full Stack App")
+app = FastAPI(title="My Esoteric App", version="1.0")
 
 # Configure CORS to allow React frontend to communicate
 app.add_middleware(

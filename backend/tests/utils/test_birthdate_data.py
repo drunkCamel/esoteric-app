@@ -1,6 +1,6 @@
 import pytest
 from app.utils.birthdate_data import BirthdateData
-from app.exceptions import InvalidDataError, InvalidTypeError
+from app.utils.exceptions import InvalidDataError, InvalidTypeError
 
 
 @pytest.mark.unit

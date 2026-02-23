@@ -1,4 +1,5 @@
 from app.utils.birthdate_data import BirthdateData
+from app.utils.exceptions  import InvalidDataError, InvalidValueError
 from app.utils import common
 from collections import Counter
 from lunardate import LunarDate
@@ -6,8 +7,15 @@ from datetime import datetime
 
 class ChineseCalc:
     def __init__(self, birthdate: BirthdateData, current_year: datetime = datetime.now().year):
+        
         self.birthdate = birthdate
         self.current_year = current_year
+
+        if not isinstance(self.current_year, int):
+            raise InvalidValueError("current_year must be an integer")
+        
+        if self.current_year < 1:
+            raise InvalidValueError("current_year must be a positive integer")
 
 
     zodiac_animals = [
@@ -50,13 +58,13 @@ class ChineseCalc:
     
     def calculate_chinese_friendly_sign_one(self) -> str:
         lunar_year = self.chinese_birth_day.year
-        index = (lunar_year + 4) % 12
+        index = (lunar_year + 12) % 12
 
         return self.zodiac_animals[index]
     
     def calculate_chinese_friendly_sign_two(self) -> str:
         lunar_year = self.chinese_birth_day.year
-        index = (lunar_year + 12) % 12
+        index = (lunar_year + 4) % 12
 
         return self.zodiac_animals[index]
     
@@ -68,6 +76,6 @@ class ChineseCalc:
         return self.zodiac_animals[(self.current_year - 4) % 12]
     
 
-birthday = BirthdateData(9 , 4, 1998)
+birthday = BirthdateData(9 , 7, 1956)
 calculator = ChineseCalc(birthday, current_year=2025)
-print(calculator.calculate_current_chinese_zodiac_year())
+print(calculator.calculating_lo_shu_square())
