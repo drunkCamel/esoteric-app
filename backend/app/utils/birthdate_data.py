@@ -1,4 +1,4 @@
-from app.exceptions import InvalidDataError, InvalidTypeError
+from app.utils.exceptions import InvalidDataError, InvalidTypeError
 
 
 class BirthdateData:
@@ -30,13 +30,24 @@ class BirthdateData:
             1: 31, 2: 29, 3: 31, 4: 30, 5: 31, 6: 30, 
             7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31
         }
-             
+     
         
         if day > days_in_month[month]:
             raise InvalidDataError(f"Day {day} is invalid for month {month}")
         self.day = day
         self.month = month
         self.year = year
+
+    def birthdate_list(self,val_one:int = None, val_two:int = None, val_three:int = None) -> list[list[int]]:
+        result = []
+        if val_one is not None:
+            result.append([val_one])
+        if val_two is not None:
+            result.append([val_two])
+        if val_three is not None:
+            result.append([val_three])
+    
+        return result
 
     def _is_valid_day(self, day:int, month:int, year:int) -> bool:
         """Validate the day based on month and leap year"""

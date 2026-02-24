@@ -1,12 +1,12 @@
 from app.utils.birthdate_data import BirthdateData
+from app.services.letters_calc import LettersCalculator
 from app.utils.name_data import NameData
 from app.utils.exceptions  import InvalidDataError, InvalidReducitonLevelError, InvalidCalculationParametersError
 from app.utils import common
-from collections import Counter
 from datetime import datetime
 
 class NumerologyCalculator:
-    def __init__(self, birthday: BirthdateData, person: NameData, 
+    def __init__(self, birthday: BirthdateData, 
                  current_year: datetime = datetime.now().year, current_month: datetime = datetime.now().month):
         """Initialise Numerology Calculator."""
 
@@ -17,7 +17,6 @@ class NumerologyCalculator:
             raise InvalidDataError(f"Current month must be between 1 and 12, got {current_month}")
         #Compositions that contains instances from other classes
         self.birthday = birthday
-        self.person = person
         self.current_year = current_year
         self.current_month = current_month
     
@@ -27,17 +26,17 @@ class NumerologyCalculator:
     #Life Path ------------------------------------
     def calculate_lifepath(self) -> list[int]:
         """Return the list of all lifepath possibilites from higest to the root """
-        result = common.calculate_all_reduction_values(self.person.birthdate_list(self.birthday.day,self.birthday.month,common.calculate_digit_sum(self.birthday.year)))
+        result = common.calculate_all_reduction_values(self.birthday.birthdate_list(self.birthday.day,self.birthday.month,common.calculate_digit_sum(self.birthday.year)))
         return result
     # Pinnacles -------------------------------------
 
 
     def calculate_pinnacle_one(self):
-        return common.calculate_all_reduction_values(self.person.birthdate_list(self.birthday.day, self.birthday.month))
+        return common.calculate_all_reduction_values(self.birthday.birthdate_list(self.birthday.day, self.birthday.month))
     
 
     def calculate_pinnacle_two(self):
-        return common.calculate_all_reduction_values(self.person.birthdate_list(self.birthday.day, common.calculate_digit_sum(self.birthday.year)))
+        return common.calculate_all_reduction_values(self.birthday.birthdate_list(self.birthday.day, common.calculate_digit_sum(self.birthday.year)))
     
 
     def calculate_pinnacle_three(self):
@@ -52,13 +51,13 @@ class NumerologyCalculator:
 
 
     def calculate_pinnacle_fourth(self):
-        return common.calculate_all_reduction_values(self.person.birthdate_list(self.birthday.month, common.calculate_digit_sum(self.birthday.year)))
+        return common.calculate_all_reduction_values(self.birthday.birthdate_list(self.birthday.month, common.calculate_digit_sum(self.birthday.year)))
     
 
     # Personal year ---------------------------------
     def calculate_personal_year(self) -> list[int]:
         """Return the list of all personal Years possibilites from higest to the root"""
-        test = common.calculate_all_reduction_values(self.person.birthdate_list(self.birthday.day,self.birthday.month,common.calculate_digit_sum(self.current_year)))
+        test = common.calculate_all_reduction_values(self.birthday.birthdate_list(self.birthday.day,self.birthday.month,common.calculate_digit_sum(self.current_year)))
         return test
     
 
@@ -126,60 +125,13 @@ class NumerologyCalculator:
         pass
     #?being number
     # personal number + personal month -  the thone of specifici month or day
-
-    def calculating_soul_number(self) -> list[int]:
-        """
-            Calculate total vowels list converted to digits with all calculation possibilities reduction level
-        """
-        return common.all_possibilites_digts_recursion_version(self.person.extract_digits_from_list('VOWEL_MAP'))
     
     
-    def calculating_realisation(self) -> list[int]:
-        """
-            Calculate total consonants list converted to digits with all calculation possibilities reduction level
-        """
-        return common.all_possibilites_digts_recursion_version(self.person.extract_digits_from_list('CONSONANT_MAP'))
-    
-    
-    def calculating_expression_number(self) -> list[int]:
-        """
-            Calculate total vowels and consonants list combined together and converted to digits with all calculation possibilities reduction level
-        """
-        return common.all_possibilites_digts_recursion_version(self.person.extract_digits_from_list('SINGLE_DIGIT_MAP'))
-    
-    
-    def calculating_name_aura(self) -> list[int]:
-        """
-            Calculate the length of fullname
-        """
-        return [len(self.person.fullname)]
-
-    
-    def calculating_name_year_transit(self) -> list[int]:
-        result = []
-        digit_first_name_length_list = common.generate_repeated_digit_sequence(
-            self.person.first_name.lower(),self.person.SINGLE_DIGIT_MAP)
-        if self.person.second_name != None and self.person.second_name != "":
-            digit_second_name_length_list = common.generate_repeated_digit_sequence(
-            self.person.second_name.lower(),self.person.SINGLE_DIGIT_MAP)
-        digit_surname_length_list = common.generate_repeated_digit_sequence(
-            self.person.surname.lower(),self.person.SINGLE_DIGIT_MAP)
-
-        if self.person.second_name != None and self.person.second_name != "":
-            result = [val1 + val2 + val3 for val1,val2,val3 in zip(digit_first_name_length_list,
-                                                               digit_second_name_length_list,
-                                                               digit_surname_length_list)]
-        else:
-            result = [val1 + val2 for val1,val2 in zip(digit_first_name_length_list,
-                                                        digit_surname_length_list)]
-        
-        return result
-    
-    
-    def calcualting_life_transits(self) -> list[int]:
+    def calcualting_life_transits(self, name: NameData) -> list[int]:
+        person = LettersCalculator(name) # NameData("Thomas", "Hanks", "Jeffrey")
         univeral_year_list = common.generate_number_sequence(self.birthday.year)
         personal_year_list = common.generate_number_sequence(self.birthday.year, extra_value=self.birthday.day + self.birthday.month)
-        sum_of_year_transits = self.calculating_name_year_transit() 
+        sum_of_year_transits = person.calculating_name_year_transit() 
 
         result = [val1 + val2 + val3 for val1,val2,val3 in zip(univeral_year_list,
                                                                personal_year_list,
@@ -187,25 +139,9 @@ class NumerologyCalculator:
 
         return result
         
-    
-    def calculating_karmic_lesson(self) -> dict[str, int]:
-        """
-            Calculate the dict of karmic lessons
-        """
-        #result_dict = {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0}
-        person_list = [self.person.SINGLE_DIGIT_MAP[char] for char in self.person.fullname if char in self.person.SINGLE_DIGIT_MAP]
-
-        # for element in person_list:
-        #     if str(element) in result_dict.keys():
-        #         result_dict[str(element)] += 1
-        counter = Counter(person_list)
-
-        return dict(counter)
-    
-
 
 
 birthday = BirthdateData(9 , 7, 1956)
-person = NameData("Thomas", "Hanks", "Jeffrey")
-calculator = NumerologyCalculator(birthday, person)
+calculator = NumerologyCalculator(birthday)
+print(calculator.calcualting_life_transits(NameData("Thomas", "Hanks", "Jeffrey")))
 

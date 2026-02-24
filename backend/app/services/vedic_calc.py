@@ -31,7 +31,7 @@ class VedicCalc:
             # Iteration 5: val = 20 → 1956 + 20 = 1976
     
     
-    def vedic_square_number_sequance_pesonal_years(self) -> list[int]:
+    def vedic_square_sequence_personal_year(self) -> list[int]:
         """
             Returns list of all 81 personal years, and for each index(personal_year) creates a new list 
             that includes all possibilites reduction to while personal_year > 9 
@@ -57,5 +57,5 @@ class VedicCalc:
     
 
 
-birthday = BirthdateData(9 , 4, 1998)
+birthday = BirthdateData(9 , 7, 1956)
 calculator = VedicCalc(birthday)
