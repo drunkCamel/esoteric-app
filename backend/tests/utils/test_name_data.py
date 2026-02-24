@@ -1,6 +1,6 @@
 import pytest
 from app.utils.name_data import NameData
-from app.exceptions import InvalidTypeError
+from app.utils.exceptions  import InvalidTypeError
 
 
 @pytest.mark.unit

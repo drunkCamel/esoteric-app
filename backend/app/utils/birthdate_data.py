@@ -1,4 +1,4 @@
-from app.exceptions import InvalidDataError, InvalidTypeError
+from app.utils.exceptions import InvalidDataError, InvalidTypeError
 
 
 class BirthdateData:

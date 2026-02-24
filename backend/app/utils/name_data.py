@@ -1,4 +1,4 @@
-from app.exceptions import InvalidTypeError
+from app.utils.exceptions  import InvalidTypeError
 class NameData:
     """Initiating the name variable"""
     SINGLE_DIGIT_MAP = {
