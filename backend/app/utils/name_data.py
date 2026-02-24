@@ -1,4 +1,5 @@
 from app.utils.exceptions  import InvalidTypeError
+
 class NameData:
     """Initiating the name variable"""
     SINGLE_DIGIT_MAP = {
@@ -54,18 +55,6 @@ class NameData:
         names =  [name for name in (self.first_name, self.second_name, self.surname) if name is not None]
         return ''.join(names).lower()
     
-
-    def birthdate_list(self,val_one:int = None, val_two:int = None, val_three:int = None) -> list[list[int]]:
-        result = []
-        if val_one is not None:
-            result.append([val_one])
-        if val_two is not None:
-            result.append([val_two])
-        if val_three is not None:
-            result.append([val_three])
-    
-        return result
-
 
     def extract_digits_from_list(self,type:str) -> list[list[int]]:
         map_selector = {
