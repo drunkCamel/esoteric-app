@@ -126,7 +126,6 @@ class NumerologyCalculator:
     #?being number
     # personal number + personal month -  the thone of specifici month or day
     
-   
     
     def calcualting_life_transits(self, name: NameData) -> list[int]:
         person = LettersCalculator(name) # NameData("Thomas", "Hanks", "Jeffrey")

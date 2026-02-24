@@ -72,3 +72,4 @@ class LettersCalculator:
 
 person = NameData("Thomas", "Hanks", "Jeffrey")
 calculator = LettersCalculator(person)
+print(calculator.calculating_name_year_transit())

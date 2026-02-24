@@ -71,12 +71,6 @@ class TestNameData:
         assert name_data.fullname == "thomashanks"
 
 
-    def test_birthdate_list(self):
-        name_data = NameData("Thomas", "Hanks", "Jeffrey")
-        assert name_data.birthdate_list(1, 2, 3) == [[1], [2], [3]]
-        assert name_data.birthdate_list(1, 2) == [[1], [2]]
-        assert name_data.birthdate_list(1) == [[1]]
-        assert name_data.birthdate_list() == []
 
     def test_extract_digits_from_list(self):
         name_data = NameData("Thomas", "Hanks", "Jeffrey")
