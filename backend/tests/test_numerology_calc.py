@@ -2,7 +2,7 @@ import pytest
 from app.utils.birthdate_data import BirthdateData
 from app.utils.name_data import NameData
 from app.services.numerology_calc import NumerologyCalculator
-from app.utils.exceptions  import InvalidValueError, InvalidDataError
+from app.utils.exceptions  import InvalidTypeError, InvalidDataError
 
 @pytest.fixture
 def birthdate():
@@ -19,6 +19,22 @@ def numerology_calc(birthdate):
 
 @pytest.mark.unit
 class TestNumerologyCalculator:
+
+    def test_current_year_validaiton(self, birthdate):
+        with pytest.raises(InvalidTypeError):
+            NumerologyCalculator(birthdate, current_year="2025")
+            NumerologyCalculator(birthdate, current_year=2025.5)
+            NumerologyCalculator(birthdate, current_year=-2025)
+            NumerologyCalculator(birthdate, current_year=0)
+            NumerologyCalculator(birthdate, current_year=-1)
+
+    def test_current_month_validation(self, birthdate):
+        with pytest.raises(InvalidTypeError):
+            NumerologyCalculator(birthdate, current_month="12")
+            NumerologyCalculator(birthdate, current_month=12.5)
+            NumerologyCalculator(birthdate, current_month=-1)
+            NumerologyCalculator(birthdate, current_month=0)
+
   
     def test_calculate_lifepath(self, numerology_calc):
 

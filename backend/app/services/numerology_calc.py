@@ -1,7 +1,7 @@
 from app.utils.birthdate_data import BirthdateData
 from app.services.letters_calc import LettersCalculator
 from app.utils.name_data import NameData
-from app.utils.exceptions  import InvalidDataError, InvalidReducitonLevelError, InvalidCalculationParametersError
+from app.utils.exceptions  import InvalidDataError, InvalidTypeError, InvalidCalculationParametersError
 from app.utils import common
 from datetime import datetime
 
@@ -11,7 +11,11 @@ class NumerologyCalculator:
         """Initialise Numerology Calculator."""
 
         if not isinstance(current_month, int) or not isinstance(current_year, int):
-            raise TypeError("current_month and current_year must be a integer value")
+            raise InvalidTypeError("current_month and current_year must be a integer value")
+        
+        if current_year < 1 or current_year > 9999:
+            raise InvalidDataError(f"current_year must be a positive integer, got {current_year}")
+
         # Current month validation
         if not 1 <= current_month <= 12:
             raise InvalidDataError(f"Current month must be between 1 and 12, got {current_month}")
