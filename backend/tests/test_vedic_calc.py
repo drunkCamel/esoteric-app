@@ -3,13 +3,15 @@ from app.utils.birthdate_data import BirthdateData
 from app.services.vedic_calc import VedicCalc
 from app.utils.exceptions  import InvalidValueError, InvalidDataError
 
-birthdate = BirthdateData(9, 7, 1956)
+@pytest.fixture
+def birthdate():
+    return BirthdateData(9, 7, 1956)
+
 
 @pytest.mark.unit
 class TestVedicCalc:
-    def test_calculate_vedic_square_number_sequance_years(self):
-        vedic_calc = VedicCalc(birthdate)
-        years_sequence = vedic_calc.vedic_square_number_sequance_years()
+    def test_calculate_vedic_square_number_sequance_years(self, birthdate):
+        years_sequence = VedicCalc(birthdate).vedic_square_number_sequance_years()
         expected_sequence = [1992, 2033, 1984, 2025, 1976, 2017, 1968, 2009, 1960, 
                              1961, 1993, 2034, 1985, 2026, 1977, 2018, 1969, 2001, 
                              2002, 1962, 1994, 2035, 1986, 2027, 1978, 2010, 1970, 
@@ -21,9 +23,8 @@ class TestVedicCalc:
                              2032, 1983, 2024, 1975, 2016, 1967, 2008, 1959, 2000]
         assert years_sequence == expected_sequence
 
-    def test_vedic_square_sequence_personal_year(self):
-        vedic_calc = VedicCalc(birthdate)
-        personal_years = vedic_calc.vedic_square_sequence_personal_year()
+    def test_vedic_square_sequence_personal_year(self, birthdate):
+        personal_years = VedicCalc(birthdate).vedic_square_sequence_personal_year()
         expected_personal_years = [[37, 10, 1], [24, 6], [38, 11, 2], [25, 7], [39, 12, 3], [26, 8], [40, 4], [27, 9], [32, 5], 
                                    [33, 6], [38, 11, 2], [25, 7], [39, 12, 3], [26, 8], [40, 4], [27, 9], [41, 5], [19, 10, 1], 
                                    [20, 2], [34, 7], [39, 12, 3], [26, 8], [40, 4], [27, 9], [41, 5], [19, 10, 1], [33, 6], 
@@ -35,9 +36,8 @@ class TestVedicCalc:
                                    [23, 5], [37, 10, 1], [24, 6], [38, 11, 2], [25, 7], [39, 12, 3], [26, 8], [40, 4], [18, 9]]
         assert personal_years == expected_personal_years
 
-    def test_vedic_square_number_sequance_univeral_years(self):
-        vedic_calc = VedicCalc(birthdate)
-        univeral_years = vedic_calc.vedic_square_number_sequance_univeral_years()
+    def test_vedic_square_number_sequance_univeral_years(self, birthdate):
+        univeral_years = VedicCalc(birthdate).vedic_square_number_sequance_univeral_years()
         expected_univeral_years = [[21, 3], [8], [22, 4], [9], [23, 5], [10, 1], [24, 6], [11, 2], [16, 7], 
                                    [17, 8], [22, 4], [9], [23, 5], [10, 1], [24, 6], [11, 2], [25, 7], [3], 
                                    [4], [18, 9], [23, 5], [10, 1], [24, 6], [11, 2], [25, 7], [3], [17, 8], 
