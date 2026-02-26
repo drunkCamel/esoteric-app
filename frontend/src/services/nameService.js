@@ -1,9 +1,9 @@
 // src/services/birthdateService.js
-export async function calculateBirthdate(day, month, year) {
-  const response = await fetch("http://localhost:8000/api/birthdate/calculate", {
+export async function calculateName(first_name, surname, second_name, fullname) {
+  const response = await fetch("http://localhost:8000/api/name/calculate", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ day, month, year }),
+    body: JSON.stringify({ first_name, surname, second_name, fullname }),
   });
 
   if (!response.ok) {

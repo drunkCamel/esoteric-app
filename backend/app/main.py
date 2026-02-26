@@ -5,7 +5,9 @@ from app.utils.exceptions import InvalidDataError, InvalidTypeError
 from app.routers import birthdate, name
 
 
-app = FastAPI(title="My Esoteric App", version="1.0")
+app = FastAPI(title="My Esoteric App",
+              description = "An API that provides esoteric calculations based on birthdate and name data.", 
+              version="1.0")
 
 # Exception handlers for custom exceptions
 @app.exception_handler(InvalidTypeError)
@@ -27,22 +29,3 @@ app.add_middleware(
 
 app.include_router(birthdate.router, prefix = "/api")  # Include the birthdate router
 app.include_router(name.router, prefix = "/api")  # Include the name router
-
-
-@app.get("/")   #home route - 
-def home():
-    return {"message": "Hello from FastAPI!"}
-
-@app.get("/api/items")
-def get_items():
-    return {
-        "items": [
-            {"id": 1, "name": "Item 1"},
-            {"id": 2, "name": "Item 2"},
-            {"id": 3, "name": "Item 3"}
-        ]
-    }
-
-@app.get("/health")
-def health_check():
-    return {"status": "healthy"}
