@@ -54,7 +54,7 @@ class NumerologyCalculator:
     )       
 
 
-    def calculate_pinnacle_fourth(self):
+    def calculate_pinnacle_fourth(self) -> list[int]:
         return common.calculate_all_reduction_values(self.birthday.birthdate_list(self.birthday.month, common.calculate_digit_sum(self.birthday.year)))
     
 
@@ -144,8 +144,4 @@ class NumerologyCalculator:
         return result
         
 
-
-birthday = BirthdateData(9 , 7, 1956)
-calculator = NumerologyCalculator(birthday)
-print(calculator.calcualting_life_transits(NameData("Thomas", "Hanks", "Jeffrey")))
 

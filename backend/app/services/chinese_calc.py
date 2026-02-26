@@ -29,7 +29,7 @@ class ChineseCalc:
         return BirthdateData(lunar_birthday.day,lunar_birthday.month,lunar_birthday.year) 
     
 
-    def calculating_lo_shu_square(self) -> dict[str, int]:
+    def calculating_lo_shu_square(self) -> dict[int, int]:
         lunar_birthday = [self.chinese_birth_day.day, self.chinese_birth_day.month, self.chinese_birth_day.year]
 
         digits = [digit for num in lunar_birthday for digit in common.number_to_digits(num)]

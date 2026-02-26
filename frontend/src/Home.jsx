@@ -148,15 +148,34 @@ function Home() {
             {activeTab === "Chinese" && (
               <div>
                 <h2>Chinese Calculations</h2>
-                <p>Lo Shu Square: {JSON.stringify(birthdateResults.lo_shu_square)}</p>
-                <p>Chinese Birthday: {JSON.stringify(birthdateResults.chinese_birth_day)}</p>
+                <p>Lo Shu Square: {Object.values(birthdateResults.lo_shu_square).join("/")}</p>
+                <p>Chinese Zodiac Sign: {birthdateResults.chinese_zodiac_sign}</p>
+                <p>Chinese Enemy Sign: {birthdateResults.chinese_enemy_sign}</p>
+                <p>Chinese Friendly Sign 1: {birthdateResults.chinese_friendly_sign_one}</p>
+                <p>Chinese Friendly Sign 2: {birthdateResults.chinese_friendly_sign_two}</p>
+                <p>Current Chinese Zodiac Year: {birthdateResults.chinese_current_year_zodiac_sign}</p>
+
               </div>
             )}
 
             {activeTab === "Numerology" && (
               <div>
                 <h2>Numerology</h2>
-                <p>Life Path: {birthdateResults.life_path_number}</p>
+                <p>Life Path: {Object.values(birthdateResults.lifepath_number).join("/")}</p>
+                <p>Pinnacles 1: {Object.values(birthdateResults.pinnacle_one).join("/")}</p>
+                <p>Pinnacles 2: {Object.values(birthdateResults.pinnacle_two).join("/")}</p>
+                <p>Pinnacles 3: {Object.values(birthdateResults.pinnacle_three).join("/")}</p>
+                <p>Pinnacles 4: {Object.values(birthdateResults.pinnacle_fourth).join("/")}</p>
+                <p>Personal Year: {Object.values(birthdateResults.personal_year).join("/")}</p>
+                <p>Personal Month: {Object.values(birthdateResults.personal_month).join("/")}</p>
+                <p>Cycle 1: {Object.values(birthdateResults.cycle_one).join("/")}</p>
+                <p>Cycle 2: {Object.values(birthdateResults.cycle_two).join("/")}</p>
+                <p>Cycle 3: {Object.values(birthdateResults.cycle_three).join("/")}</p>
+                <p>Pythagoras Life Cycle: {Object.values(birthdateResults.pythagoras_life_cycle).join("/")}</p>
+                <p>Periodical Challenge 1: {Object.values(birthdateResults.periodical_challenge_one).join("/")}</p>
+                <p>Periodical Challenge 2: {Object.values(birthdateResults.periodical_challenge_two).join("/")}</p>
+                <p>Periodical Challenge 3: {Object.values(birthdateResults.periodical_challenge_three).join("/")}</p>
+                <p>Periodical Challenge 4: {Object.values(birthdateResults.periodical_challenge_four).join("/")}</p>
               </div>
             )}
 
