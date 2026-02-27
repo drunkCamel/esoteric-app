@@ -59,3 +59,5 @@ class VedicCalc:
 
 birthday = BirthdateData(9 , 7, 1956)
 calculator = VedicCalc(birthday)
+print(calculator.vedic_square_number_sequance_years())
+

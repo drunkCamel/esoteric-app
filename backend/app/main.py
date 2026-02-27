@@ -1,7 +1,22 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from app.utils.exceptions import InvalidDataError, InvalidTypeError
+from app.routers import birthdate, name
 
-app = FastAPI(title="My Esoteric App", version="1.0")
+
+app = FastAPI(title="My Esoteric App",
+              description = "An API that provides esoteric calculations based on birthdate and name data.", 
+              version="1.0")
+
+# Exception handlers for custom exceptions
+@app.exception_handler(InvalidTypeError)
+async def invalid_type_handler(request: Request, exc: InvalidTypeError):
+    return JSONResponse(status_code=422, content={"error": "invalid_type", "detail": str(exc)})
+
+@app.exception_handler(InvalidDataError)
+async def invalid_data_handler(request: Request, exc: InvalidDataError):
+    return JSONResponse(status_code=400, content={"error": "invalid_data", "detail": str(exc)})
 
 # Configure CORS to allow React frontend to communicate
 app.add_middleware(
@@ -12,20 +27,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-def read_root():
-    return {"message": "Hello from FastAPI!"}
-
-@app.get("/api/items")
-def get_items():
-    return {
-        "items": [
-            {"id": 1, "name": "Item 1"},
-            {"id": 2, "name": "Item 2"},
-            {"id": 3, "name": "Item 3"}
-        ]
-    }
-
-@app.get("/health")
-def health_check():
-    return {"status": "healthy"}
+app.include_router(birthdate.router, prefix = "/api")  # Include the birthdate router
+app.include_router(name.router, prefix = "/api")  # Include the name router
